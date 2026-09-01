@@ -1,0 +1,24 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+
+Experimente a nova plataforma cruzada PowerShell https://aka.ms/pscore6
+
+PS C:\Users\Kroneis> kubectl get hpa -n hpa-demo -w
+NAME             REFERENCE               TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%   	 1         8         1          107s
+php-apache-hpa   Deployment/php-apache   cpu: 200%/50%   1         8         3          2m30s
+php-apache-hpa   Deployment/php-apache   cpu: 84%/50%    1         8         4          2m45s
+php-apache-hpa   Deployment/php-apache   cpu: 67%/50%    1         8         4          3m00s
+php-apache-hpa   Deployment/php-apache   cpu: 72%/50%    1         8         3          3m16s
+php-apache-hpa   Deployment/php-apache   cpu: 83%/50%    1         8         4          3m36s
+php-apache-hpa   Deployment/php-apache   cpu: 66%/50%    1         8         6          3m51s
+php-apache-hpa   Deployment/php-apache   cpu: 53%/50%    1         8         6          4m06s
+php-apache-hpa   Deployment/php-apache   cpu: 42%/50%    1         8         6          4m16s
+php-apache-hpa   Deployment/php-apache   cpu: 47%/50%    1         8         7          4m37s
+php-apache-hpa   Deployment/php-apache   cpu: 35%/50%    1         8         7          5m52s
+php-apache-hpa   Deployment/php-apache   cpu: 42%/50%    1         8         7          6m7s
+php-apache-hpa   Deployment/php-apache   cpu: 40%/50%    1         8         7          6m22s
+php-apache-hpa   Deployment/php-apache   cpu: 35%/50%    1         8         7          6m37s
+php-apache-hpa   Deployment/php-apache   cpu: 3%/50%     1         8         6          6m52s
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%     1         8         6          7m16s
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%     1         8         6          7m31s

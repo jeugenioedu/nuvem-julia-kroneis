@@ -1,0 +1,407 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+
+Experimente a nova plataforma cruzada PowerShell https://aka.ms/pscore6
+
+PS C:\Users\Kroneis> aws configure
+
+Tip: You can deliver temporary credentials to the AWS CLI using your AWS Console session by running the command 'aws login'.
+
+AWS Access Key ID [None]: <ID_key_1>
+AWS Secret Access Key [None]: <senha>
+Default region name [None]: us-east-1
+Default output format [None]: json
+PS C:\Users\Kroneis> aws sts get-caller-identity
+
+aws: [ERROR]: An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid.
+PS C:\Users\Kroneis> aws configure
+AWS Access Key ID [****************<parte_senha>]: <senha>
+AWS Secret Access Key [****************<parte_senha>]: <senha>
+
+aws: [ERROR]:
+PS C:\Users\Kroneis> aws configure list
+NAME       : VALUE                    : TYPE             : LOCATION
+profile    : <not set>                : None             : None
+access_key : ****************<parte_senha>     : shared-credentials-file :
+secret_key : ****************<parte_senha>     : shared-credentials-file :
+region     : us-east-1                : config-file      : ~/.aws/config
+PS C:\Users\Kroneis> aws configure
+AWS Access Key ID [****************<parte_senha>]: <ID_key_2>
+AWS Secret Access Key [****************<parte_senha>]: <senha_key>
+Default region name [us-east-1]: us-east-1
+Default output format [json]: json
+PS C:\Users\Kroneis> aws sts get-caller-identity
+{
+    "UserId": "<User_ID>",
+    "Account": "<ID_da_Conta_AWS>",
+    "Arn": "arn:aws:iam::<ID_da_Conta_AWS>:user/PSI5120_<aluno>"
+}
+
+PS C:\Users\Kroneis> git --version
+>> docker --version
+>> kubectl version --client
+>> minikube version
+>> aws --version
+>> aws sts get-caller-identity
+git version 2.55.0.windows.5
+Docker version 29.7.2, build a7dcaa6
+Client Version: v1.36.1
+Kustomize Version: v5.8.1
+minikube version: v1.38.1
+commit: c93a4cb9311efc66b90d33ea03f75f2c4120e9b0
+aws-cli/2.36.32 Python/3.14.6 Windows/10 exe/AMD64
+{
+    "UserId": "<User_ID>",
+    "Account": "<ID_da_Conta_AWS>",
+    "Arn": "arn:aws:iam::<ID_da_Conta_AWS>:user/PSI5120_<aluno>"
+}
+
+PS C:\Users\Kroneis> git clone https://github.com/<seu-usuario>/hpa-minikube-vs-eks.git
+>> cd hpa-minikube-vs-eks
+Cloning into 'hpa-minikube-vs-eks'...
+fatal: unable to access 'https://github.com/<seu-usuario>/hpa-minikube-vs-eks.git/': The requested URL returned error: 400
+cd : Não é possível localizar o caminho 'C:\Users\Kroneis\hpa-minikube-vs-eks' porque ele não existe.
+No linha:2 caractere:1
++ cd hpa-minikube-vs-eks
++ ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\Kroneis\hpa-minikube-vs-eks:String) [Set-Location], ItemNotFound
+   Exception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetLocationCommand
+
+PS C:\Users\Kroneis> cd C:\nuvem-projeto-intermediario
+PS C:\nuvem-projeto-intermediario> git clone https://github.com/jeugenioedu/nuvem-julia-kroneis.git
+Cloning into 'nuvem-julia-kroneis'...
+warning: You appear to have cloned an empty repository.
+PS C:\nuvem-projeto-intermediario> cd .\nuvem-julia-kroneis\
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> minikube start --cpus=4 --memory=4096
+* minikube v1.38.1 on Microsoft Windows 10 Pro 22H2
+* Automatically selected the docker driver
+! Starting v1.39.0, minikube will default to "containerd" container runtime. See #21973 for more info.
+
+X Exiting due to MK_USAGE: Docker Desktop has only 3850MB memory but you specified 4096MB
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> minikube start --cpus=4 --memory=4096
+* minikube v1.38.1 on Microsoft Windows 10 Pro 22H2
+* Automatically selected the docker driver
+! Starting v1.39.0, minikube will default to "containerd" container runtime. See #21973 for more info.
+
+X Exiting due to MK_USAGE: Docker Desktop has only 3850MB memory but you specified 4096MB
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> wsl --shutdown
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> type $env:USERPROFILE\.wslconfig
+[wsl2]
+memory=6GB
+processors=4
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> minikube start --cpus=4 --memory=4096minikube start --cpus=4 --memory=4096
+* minikube v1.38.1 on Microsoft Windows 10 Pro 22H2
+* Automatically selected the docker driver
+! Starting v1.39.0, minikube will default to "containerd" container runtime. See #21973 for more info.
+
+X Exiting due to MK_USAGE: Docker Desktop has only 3850MB memory but you specified 4096MB
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> wsl --shutdown
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> docker info | findstr /i memory
+ Total Memory: 5.788GiB
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> minikube start --cpus=4 --memory=4096
+* minikube v1.38.1 on Microsoft Windows 10 Pro 22H2
+* Automatically selected the docker driver
+! Starting v1.39.0, minikube will default to "containerd" container runtime. See #21973 for more info.
+* Using Docker Desktop driver with root privileges
+* Starting "minikube" primary control-plane node in "minikube" cluster
+* Pulling base image v0.0.50 ...
+* Downloading Kubernetes v1.35.1 preload ...
+    > gcr.io/k8s-minikube/kicbase...:  519.58 MiB / 519.58 MiB  100.00% 4.56 Mi
+    > preloaded-images-k8s-v18-v1...:  272.45 MiB / 272.45 MiB  100.00% 1.71 Mi
+* Creating docker container (CPUs=4, Memory=4096MB) ...
+! Failing to connect to https://registry.k8s.io/ from inside the minikube container
+* To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+* Preparing Kubernetes v1.35.1 on Docker 29.2.1 ...
+* Configuring bridge CNI (Container Networking Interface) ...
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* Enabled addons: storage-provisioner, default-storageclass
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get nodes
+NAME       STATUS   ROLES           AGE     VERSION
+minikube   Ready    control-plane   6m43s   v1.35.1
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> minikube addons enable metrics-server
+* metrics-server is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+  - Using image registry.k8s.io/metrics-server/metrics-server:v0.8.1
+* The 'metrics-server' addon is enabled
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get pods -n kube-system | findstr metrics-server
+metrics-server-9d74bb658-ktnmz     0/1     ContainerCreating   0               34s
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get pods -n kube-system | findstr metrics-server
+metrics-server-9d74bb658-ktnmz     1/1     Running   0               2m49s
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl top nodes
+NAME       CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+minikube   327m         8%       563Mi           9%
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> mkdir manifests
+
+
+    Diretório: C:\nuvem-projeto-intermediario\nuvem-julia-kroneis
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        30/08/2026     22:28                manifests
+
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> notepad manifests\manifests-hpa-demo.yaml
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl apply -f manifests\manifests-hpa-demo.yaml
+namespace/hpa-demo created
+deployment.apps/php-apache created
+service/php-apache created
+horizontalpodautoscaler.autoscaling/php-apache-hpa created
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get deployment,pod,svc,hpa -n hpa-demo
+>> kubectl top pods -n hpa-demo
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/php-apache   0/1     1            0           33s
+
+NAME                              READY   STATUS              RESTARTS   AGE
+pod/php-apache-5979ff748b-blpxl   0/1     ContainerCreating   0          33s
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+service/php-apache   ClusterIP   10.109.238.253   <none>        80/TCP    33s
+
+NAME                                                 REFERENCE               TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/php-apache-hpa   Deployment/php-apache   cpu: <unknown>/50%   1         8         1          33s
+error: metrics not available yet                       kubectl get deployment,pod,svc,hpa -n hpa-demo
+>> kubectl top pods -n hpa-demoio\nuvem-julia-kroneis>
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/php-apache   0/1     1            0           2m50s
+
+NAME                              READY   STATUS              RESTARTS   AGE
+pod/php-apache-5979ff748b-blpxl   0/1     ContainerCreating   0          2m50s
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+service/php-apache   ClusterIP   10.109.238.253   <none>        80/TCP    2m50s
+
+NAME                                                 REFERENCE               TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/php-apache-hpa   Deployment/php-apache   cpu: <unknown>/50%   1         8         1          2m51s
+error: Metrics not available for pod hpa-demo/php-apache-5979ff748b-blpxl, age: 2m51.856825s
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get deployment,pod,svc,hpa -n hpa-demo
+>> kubectl top pods -n hpa-demo
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/php-apache   1/1     1            1           3m39s
+
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/php-apache-5979ff748b-blpxl   1/1     Running   0          3m39s
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+service/php-apache   ClusterIP   10.109.238.253   <none>        80/TCP    3m39s
+
+NAME                                                 REFERENCE               TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/php-apache-hpa   Deployment/php-apache   cpu: <unknown>/50%   1         8         1          3m39s
+error: Metrics not available for pod hpa-demo/php-apache-5979ff748b-blpxl, age: 3m40.2329754s
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl logs -n kube-system -l k8s-app=metrics-server --tail=20
+I0831 01:25:12.321411       1 handler.go:288] Adding GroupVersion metrics.k8s.io v1beta1 to ResourceManager
+I0831 01:25:12.450307       1 configmap_cafile_content.go:205] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0831 01:25:12.450364       1 shared_informer.go:350] "Waiting for caches to sync" controller="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0831 01:25:12.450309       1 configmap_cafile_content.go:205] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0831 01:25:12.450396       1 requestheader_controller.go:180] Starting RequestHeaderAuthRequestController
+I0831 01:25:12.450433       1 shared_informer.go:350] "Waiting for caches to sync" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0831 01:25:12.450439       1 shared_informer.go:350] "Waiting for caches to sync" controller="RequestHeaderAuthRequestController"
+I0831 01:25:12.461430       1 dynamic_serving_content.go:135] "Starting controller" name="serving-cert::/tmp/apiserver.crt::/tmp/apiserver.key"
+I0831 01:25:12.466995       1 secure_serving.go:211] Serving securely on [::]:4443
+I0831 01:25:12.467125       1 tlsconfig.go:243] "Starting DynamicServingCertificateController"
+I0831 01:25:12.514514       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:25:12.559135       1 shared_informer.go:357] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0831 01:25:12.559700       1 shared_informer.go:357] "Caches are synced" controller="RequestHeaderAuthRequestController"
+I0831 01:25:12.559726       1 shared_informer.go:357] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0831 01:25:22.521381       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:25:32.517175       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:25:42.517313       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:25:52.534820       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:26:02.514966       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:26:12.517662       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl logs -n kube-system -l k8s-app=metrics-server | findstr /i "error unable fail scrape x509"
+I0831 01:25:12.514514       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:25:22.521381       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:25:32.517175       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:25:42.517313       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:25:52.534820       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:26:02.514966       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+I0831 01:26:12.517662       1 server.go:192] "Failed probe" probe="metric-storage-ready" err="no metrics to serve"
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get deployment metrics-server -n kube-system -o jsonpath="{.spec.template.spec.containers[0].args}"
+["--cert-dir=/tmp","--secure-port=4443","--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname","--kubelet-use-node-status-port","--metric-resolution=60s","--kubelet-insecure-tls"]
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get apiservice v1beta1.metrics.k8s.io -o yaml
+apiVersion: apiregistration.k8s.io/v1
+kind: APIService
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apiregistration.k8s.io/v1","kind":"APIService","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","k8s-app":"metrics-server","kubernetes.io/minikube-addons":"metrics-server"},"name":"v1beta1.metrics.k8s.io"},"spec":{"group":"metrics.k8s.io","groupPriorityMinimum":100,"insecureSkipTLSVerify":true,"service":{"name":"metrics-server","namespace":"kube-system"},"version":"v1beta1","versionPriority":100}}
+  creationTimestamp: "2026-08-31T01:24:27Z"
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+    k8s-app: metrics-server
+    kubernetes.io/minikube-addons: metrics-server
+  name: v1beta1.metrics.k8s.io
+  resourceVersion: "762"
+  uid: 1d27dce7-8682-40d4-970c-485fef672d78
+spec:
+  group: metrics.k8s.io
+  groupPriorityMinimum: 100
+  insecureSkipTLSVerify: true
+  service:
+    name: metrics-server
+    namespace: kube-system
+    port: 443
+  version: v1beta1
+  versionPriority: 100
+status:
+  conditions:
+  - lastTransitionTime: "2026-08-31T01:26:16Z"
+    message: all checks passed
+    reason: Passed
+    status: "True"
+    type: Available
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl describe pod -n kube-system -l k8s-app=metrics-server
+Name:                 metrics-server-9d74bb658-ktnmz
+Namespace:            kube-system
+Priority:             2000000000
+Priority Class Name:  system-cluster-critical
+Service Account:      metrics-server
+Node:                 minikube/192.168.49.2
+Start Time:           Sun, 30 Aug 2026 22:24:27 -0300
+Labels:               k8s-app=metrics-server
+                      pod-template-hash=9d74bb658
+Annotations:          <none>
+Status:               Running
+IP:                   10.244.0.3
+IPs:
+  IP:           10.244.0.3
+Controlled By:  ReplicaSet/metrics-server-9d74bb658
+Containers:
+  metrics-server:
+    Container ID:  docker://53f844c691b35a415e726f2f4d8e2e0db68a22dddef394b1c4cd4e4379ab0f99
+    Image:         registry.k8s.io/metrics-server/metrics-server:v0.8.1@sha256:b2d2efaf5ac3b366ed0f839d2412a2c4279d4fc2a2a733f12c52133faed36c41
+    Image ID:      docker-pullable://registry.k8s.io/metrics-server/metrics-server@sha256:b2d2efaf5ac3b366ed0f839d2412a2c4279d4fc2a2a733f12c52133faed36c41
+    Port:          4443/TCP (https)
+    Host Port:     0/TCP (https)
+    Args:
+      --cert-dir=/tmp
+      --secure-port=4443
+      --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+      --kubelet-use-node-status-port
+      --metric-resolution=60s
+      --kubelet-insecure-tls
+    State:          Running
+      Started:      Sun, 30 Aug 2026 22:25:10 -0300
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:        100m
+      memory:     200Mi
+    Liveness:     http-get https://:https/livez delay=0s timeout=1s period=10s #success=1 #failure=3
+    Readiness:    http-get https://:https/readyz delay=0s timeout=1s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /tmp from tmp-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-55lbm (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
+Volumes:
+  tmp-dir:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  kube-api-access-55lbm:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                  From               Message
+  ----     ------     ----                 ----               -------
+  Normal   Scheduled  11m                  default-scheduler  Successfully assigned kube-system/metrics-server-9d74bb658-ktnmz to minikube
+  Normal   Pulling    11m                  kubelet            spec.containers{metrics-server}: Pulling image "registry.k8s.io/metrics-server/metrics-server:v0.8.1@sha256:b2d2efaf5ac3b366ed0f839d2412a2c4279d4fc2a2a733f12c52133faed36c41"
+  Normal   Pulled     10m                  kubelet            spec.containers{metrics-server}: Successfully pulled image "registry.k8s.io/metrics-server/metrics-server:v0.8.1@sha256:b2d2efaf5ac3b366ed0f839d2412a2c4279d4fc2a2a733f12c52133faed36c41" in 40.617s (40.617s including waiting). Image size: 82837395 bytes.
+  Normal   Created    10m                  kubelet            spec.containers{metrics-server}: Container created
+  Normal   Started    10m                  kubelet            spec.containers{metrics-server}: Container started
+  Warning  Unhealthy  10m                  kubelet            spec.containers{metrics-server}: Readiness probe failed: Get "https://10.244.0.3:4443/readyz": dial tcp 10.244.0.3:4443: connect: connection refused
+  Warning  Unhealthy  10m                  kubelet            spec.containers{metrics-server}: Readiness probe failed: Get "https://10.244.0.3:4443/readyz": net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+  Warning  Unhealthy  9m33s (x7 over 10m)  kubelet            spec.containers{metrics-server}: Readiness probe failed: HTTP probe failed with statuscode: 500
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl top nodes
+>> kubectl top pods -n hpa-demo
+NAME       CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+minikube   383m         9%       715Mi           12%
+NAME                          CPU(cores)   MEMORY(bytes)
+php-apache-5979ff748b-blpxl   33m          12Mi
+php-apache-5979ff748b-nfgct   42m          11Mi
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get deployment,hpa -n hpa-demo
+>> kubectl describe hpa php-apache-hpa -n hpa-demo
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/php-apache   2/2     2            2           7m42s
+
+NAME                                                 REFERENCE               TARGETS        MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/php-apache-hpa   Deployment/php-apache   cpu: 33%/50%   1         8         2          7m42s
+Name:                                                  php-apache-hpa
+Namespace:                                             hpa-demo
+Labels:                                                <none>
+Annotations:                                           <none>
+CreationTimestamp:                                     Sun, 30 Aug 2026 22:29:12 -0300
+Reference:                                             Deployment/php-apache
+Metrics:                                               ( current / target )
+  resource cpu on pods  (as a percentage of request):  33% (33m) / 50%
+Min replicas:                                          1
+Max replicas:                                          8
+Behavior:
+  Scale Up:
+    Stabilization Window: 0 seconds
+    Select Policy: Max
+    Policies:
+      - Type: Pods     Value: 4    Period: 15 seconds
+      - Type: Percent  Value: 100  Period: 15 seconds
+  Scale Down:
+    Stabilization Window: 60 seconds
+    Select Policy: Max
+    Policies:
+      - Type: Percent  Value: 100  Period: 15 seconds
+Deployment pods:       2 current / 2 desired
+Conditions:
+  Type            Status  Reason               Message
+  ----            ------  ------               -------
+  AbleToScale     True    ScaleDownStabilized  recent recommendations were higher than current one, applying the highest recent recommendation
+  ScalingActive   True    ValidMetricFound     the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)
+  ScalingLimited  False   DesiredWithinRange   the desired count is within the acceptable range
+Events:
+  Type     Reason                        Age                     From                       Message
+  ----     ------                        ----                    ----                       -------
+  Warning  FailedComputeMetricsReplicas  4m35s (x12 over 7m27s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+  Warning  FailedGetResourceMetric       4m20s (x13 over 7m27s)  horizontal-pod-autoscaler  failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+  Normal   SuccessfulRescale             95s                     horizontal-pod-autoscaler  New size: 2; reason: cpu resource utilization (percentage of request) above target
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get hpa php-apache-hpa -n hpa-demo --watch
+NAME             REFERENCE               TARGETS        MINPODS   MAXPODS   REPLICAS   AGE
+php-apache-hpa   Deployment/php-apache   cpu: 37%/50%   1         8         2          8m20s
+php-apache-hpa   Deployment/php-apache   cpu: 28%/50%   1         8         2          9m7s
+php-apache-hpa   Deployment/php-apache   cpu: 25%/50%   1         8         2          9m52s
+php-apache-hpa   Deployment/php-apache   cpu: 17%/50%   1         8         2          10m
+php-apache-hpa   Deployment/php-apache   cpu: 16%/50%   1         8         1          10m
+php-apache-hpa   Deployment/php-apache   cpu: 15%/50%   1         8         1          11m
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl top pods -n hpa-demo
+NAME                          CPU(cores)   MEMORY(bytes)
+php-apache-5979ff748b-blpxl   27m          12Mi
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get pods -A
+NAMESPACE     NAME                               READY   STATUS    RESTARTS      AGE
+hpa-demo      php-apache-5979ff748b-blpxl        1/1     Running   0             13m
+kube-system   coredns-7d764666f9-l94dl           1/1     Running   0             24m
+kube-system   etcd-minikube                      1/1     Running   0             25m
+kube-system   kube-apiserver-minikube            1/1     Running   0             25m
+kube-system   kube-controller-manager-minikube   1/1     Running   1 (25m ago)   25m
+kube-system   kube-proxy-9vwnm                   1/1     Running   0             24m
+kube-system   kube-scheduler-minikube            1/1     Running   0             25m
+kube-system   metrics-server-9d74bb658-ktnmz     1/1     Running   0             18m
+kube-system   storage-provisioner                1/1     Running   1 (10m ago)   19m
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>

@@ -1,0 +1,743 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+
+Experimente a nova plataforma cruzada PowerShell https://aka.ms/pscore6
+
+PS C:\Users\Julia> cd C:\nuvem-projeto-intermediario\nuvem-julia-kroneis
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws sts get-caller-identity
+{
+    "UserId": "<User_ID_key>",
+    "Account": "<User_ID>",
+    "Arn": "arn:aws:iam::<User_ID>:user/PSI5120_<nome_usuario>"
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws cloudformation describe-stacks --region us-east-1 --stack-name hpa-project-vpc --query 'Stacks[0].StackStatus' --output text
+CREATE_COMPLETE
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws iam get-role --role-name hpa-project-eks-cluster-role --query 'Role.Arn' --output text
+arn:aws:iam::<User_ID>:role/hpa-project-eks-cluster-role
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws iam get-role --role-name hpa-project-eks-node-role --query 'Role.Arn' --output text
+arn:aws:iam::<User_ID>:role/hpa-project-eks-node-role
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-cluster --region us-east-1 --name hpa-project-eks --query 'cluster.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-cluster --region us-east-1 --name hpa-project-eks --query 'cluster.status' --output text
+ACTIVE
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-cluster --region us-east-1 --name hpa-project-eks --query 'cluster.resourcesVpcConfig.vpcId' --output text
+>> aws eks describe-cluster --region us-east-1 --name hpa-project-eks --query 'cluster.resourcesVpcConfig.subnetIds' --output text
+vpc-<ID_vpc_1>
+
+subnet-<ID_sbn_1>        subnet-<ID_sbn_2>        subnet-<ID_sbn_3>        subnet-<ID_sbn_4>        subnet-<ID_sbn_5>
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks delete-cluster --region us-east-1 --name hpa-project-eks
+{
+    "cluster": {
+        "name": "hpa-project-eks",
+        "arn": "arn:aws:eks:us-east-1:<User_ID>:cluster/hpa-project-eks",
+        "createdAt": "2026-08-31T09:26:39.421000-03:00",
+        "version": "1.36",
+        "endpoint": "https://362263AB68AE3102F7046135FA19C6A4.gr7.us-east-1.eks.amazonaws.com",
+        "roleArn": "arn:aws:iam::<User_ID>:role/hpa-project-eks-cluster-role",
+        "resourcesVpcConfig": {
+            "subnetIds": [
+                "subnet-<ID_sbn_1>",
+                "subnet-<ID_sbn_2>",
+                "subnet-<ID_sbn_3>",
+                "subnet-<ID_sbn_4>",
+                "subnet-<ID_sbn_5>"
+            ],
+            "securityGroupIds": [],
+            "clusterSecurityGroupId": "sg-<ID_sg_1>",
+            "vpcId": "vpc-<ID_vpc_1>",
+            "endpointPublicAccess": true,
+            "endpointPrivateAccess": true,
+            "publicAccessCidrs": [
+                "0.0.0.0/0"
+            ],
+            "controlPlaneEgressMode": "AWS_MANAGED"
+        },
+        "kubernetesNetworkConfig": {
+            "serviceIpv4Cidr": "10.100.0.0/16",
+            "ipFamily": "ipv4",
+            "elasticLoadBalancing": {
+                "enabled": false
+            }
+        },
+        "logging": {
+            "clusterLogging": [
+                {
+                    "types": [
+                        "api",
+                        "audit",
+                        "authenticator",
+                        "controllerManager",
+                        "scheduler"
+                    ],
+                    "enabled": false
+                }
+            ]
+        },
+        "identity": {
+            "oidc": {
+^C
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks delete-cluster --region us-east-1 --name hpa-project-eks
+
+aws: [ERROR]: An error occurred (ResourceNotFoundException) when calling the DeleteCluster operation: No cluster found for name: hpa-project-eks.
+
+Additional error details:
+clusterName: hpa-project-eks
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-cluster --region us-east-1 --name hpa-project-eks --query 'cluster.status' --output text
+
+aws: [ERROR]: An error occurred (ResourceNotFoundException) when calling the DescribeCluster operation: No cluster found for name: hpa-project-eks.
+
+Additional error details:
+clusterName: hpa-project-eks
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks create-cluster `
+>>   --name hpa-project-eks `
+>>   --region us-east-1 `
+>>   --role-arn arn:aws:iam::<User_ID>:role/hpa-project-eks-cluster-role `
+>>   --resources-vpc-config subnetIds=subnet-<ID_sbn_7>,subnet-<ID_sbn_6>,subnet-<ID_sbn_8>,securityGroupIds=sg-<ID_sg_2>,endpointPublicAccess=true,endpointPrivateAccess=false `
+>>   --access-config authenticationMode=API,bootstrapClusterCreatorAdminPermissions=true `
+>>   --tags Disciplina=PSI5120,Projeto=HPA-Minikube-vs-EKS,Ambiente=didatico
+{
+    "cluster": {
+        "name": "hpa-project-eks",
+        "arn": "arn:aws:eks:us-east-1:<User_ID>:cluster/hpa-project-eks",
+        "createdAt": "2026-08-31T09:55:24.186000-03:00",
+        "version": "1.36",
+        "roleArn": "arn:aws:iam::<User_ID>:role/hpa-project-eks-cluster-role",
+        "resourcesVpcConfig": {
+            "subnetIds": [
+                "subnet-<ID_sbn_7>",
+                "subnet-<ID_sbn_6>",
+                "subnet-<ID_sbn_8>"
+            ],
+            "securityGroupIds": [
+                "sg-<ID_sg_2>"
+            ],
+            "vpcId": "vpc-<ID_vpc_2>",
+            "endpointPublicAccess": true,
+            "endpointPrivateAccess": false,
+            "publicAccessCidrs": [
+                "0.0.0.0/0"
+            ],
+            "controlPlaneEgressMode": "AWS_MANAGED"
+        },
+        "kubernetesNetworkConfig": {
+            "serviceIpv4Cidr": "10.100.0.0/16",
+            "ipFamily": "ipv4",
+            "elasticLoadBalancing": {
+                "enabled": false
+            }
+        },
+        "logging": {
+            "clusterLogging": [
+                {
+                    "types": [
+                        "api",
+                        "audit",
+                        "authenticator",
+                        "controllerManager",
+                        "scheduler"
+                    ],
+                    "enabled": false
+                }
+            ]
+        },
+        "status": "CREATING",
+        "certificateAuthority": {},
+        "platformVersion": "eks.10",
+        "tags": {
+            "Ambiente": "didatico",
+            "Disciplina": "PSI5120",
+            "Projeto": "HPA-Minikube-vs-EKS"
+        },
+        "accessConfig": {
+            "bootstrapClusterCreatorAdminPermissions": true,
+            "authenticationMode": "API"
+        },
+        "upgradePolicy": {
+            "supportType": "EXTENDED"
+        },
+        "deletionProtection": false,
+        "controlPlaneScalingConfig": {
+            "tier": "standard"
+        },
+        "kubeApiServerConfig": {
+            "eventTtl": "60m",
+            "serviceNodePortRange": {
+                "minPort": 30000,
+                "maxPort": 32767
+            }
+        },
+        "kubeSchedulerConfig": {
+            "nodeResourcesFit": {
+                "scoringStrategy": {
+                    "type": "LeastAllocated",
+                    "resources": [
+                        {
+                            "name": "cpu",
+                            "weight": 1
+                        },
+                        {
+                            "name": "memory",
+                            "weight": 1
+                        }
+                    ]
+                }
+            }
+        },
+        "kubeControllerManagerConfig": {
+            "podGcControllerConfig": {
+                "terminatedPodGcThreshold": 12500
+            },
+            "horizontalPodAutoscalerControllerConfig": {
+                "horizontalPodAutoscalerSyncPeriod": "15s"
+            }
+        }
+    }
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks list-clusters --region us-east-1
+{
+    "clusters": [
+        "hpa-project-eks"
+    ]
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks list-clusters --region us-east-1
+{
+    "clusters": [
+        "hpa-project-eks"
+    ]
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-cluster --region us-east-1 --name hpa-project-eks --query 'cluster.status' --output text
+ACTIVE
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks update-kubeconfig --region us-east-1 --name hpa-project-eks
+Added new context arn:aws:eks:us-east-1:<User_ID>:cluster/hpa-project-eks to C:\Users\Julia\.kube\config
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks create-nodegroup `
+>>   --cluster-name hpa-project-eks `
+>>   --nodegroup-name hpa-project-ng `
+>>   --region us-east-1 `
+>>   --node-role arn:aws:iam::<User_ID>:role/hpa-project-eks-node-role `
+>>   --subnets subnet-<ID_sbn_7> subnet-<ID_sbn_6> subnet-<ID_sbn_8> `
+>>   --scaling-config minSize=1,maxSize=2,desiredSize=2 `
+>>   --instance-types t3.medium `
+>>   --disk-size 20 `
+>>   --capacity-type ON_DEMAND `
+>>   --tags Disciplina=PSI5120,Projeto=HPA-Minikube-vs-EKS,Ambiente=didatico
+{
+    "nodegroup": {
+        "nodegroupName": "hpa-project-ng",
+        "nodegroupArn": "arn:aws:eks:us-east-1:<User_ID>:nodegroup/hpa-project-eks/hpa-project-ng/8ed02bf7-3e27-4107-621b-720094de0cbc",
+        "clusterName": "hpa-project-eks",
+        "version": "1.36",
+        "releaseVersion": "1.36.3-20260827",
+        "createdAt": "2026-08-31T10:07:23.369000-03:00",
+        "modifiedAt": "2026-08-31T10:07:23.369000-03:00",
+        "status": "CREATING",
+        "capacityType": "ON_DEMAND",
+        "scalingConfig": {
+            "minSize": 1,
+            "maxSize": 2,
+            "desiredSize": 2
+        },
+        "instanceTypes": [
+            "t3.medium"
+        ],
+        "subnets": [
+            "subnet-<ID_sbn_7>",
+            "subnet-<ID_sbn_6>",
+            "subnet-<ID_sbn_8>"
+        ],
+        "amiType": "AL2023_x86_64_STANDARD",
+        "nodeRole": "arn:aws:iam::<User_ID>:role/hpa-project-eks-node-role",
+        "diskSize": 20,
+        "health": {
+            "issues": []
+        },
+        "updateConfig": {
+            "maxUnavailable": 1
+        },
+        "tags": {
+            "Ambiente": "didatico",
+            "Disciplina": "PSI5120",
+            "Projeto": "HPA-Minikube-vs-EKS"
+        }
+    }
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.health'
+{
+    "issues": []
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws ec2 describe-instances --region us-east-1 --filters "Name=tag:aws:eks:cluster-name,Values=hpa-project-eks" --query "Reservations[].Instances[].[InstanceId, State.Name, PublicIpAddress]" --output table
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get nodes
+No resources found
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks delete-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1
+{
+    "nodegroup": {
+        "nodegroupName": "hpa-project-ng",
+        "nodegroupArn": "arn:aws:eks:us-east-1:<User_ID>:nodegroup/hpa-project-eks/hpa-project-ng/8ed02bf7-3e27-4107-621b-720094de0cbc",
+        "clusterName": "hpa-project-eks",
+        "version": "1.36",
+        "releaseVersion": "1.36.3-20260827",
+        "createdAt": "2026-08-31T10:07:23.369000-03:00",
+        "modifiedAt": "2026-08-31T10:26:46.321000-03:00",
+        "status": "DELETING",
+        "capacityType": "ON_DEMAND",
+        "scalingConfig": {
+            "minSize": 1,
+            "maxSize": 2,
+            "desiredSize": 2
+        },
+        "instanceTypes": [
+            "t3.medium"
+        ],
+        "subnets": [
+            "subnet-<ID_sbn_7>",
+            "subnet-<ID_sbn_6>",
+            "subnet-<ID_sbn_8>"
+        ],
+        "amiType": "AL2023_x86_64_STANDARD",
+        "nodeRole": "arn:aws:iam::<User_ID>:role/hpa-project-eks-node-role",
+        "diskSize": 20,
+        "health": {
+            "issues": []
+        },
+        "updateConfig": {
+            "maxUnavailable": 1
+        },
+        "tags": {
+            "Ambiente": "didatico",
+            "Disciplina": "PSI5120",
+            "Projeto": "HPA-Minikube-vs-EKS"
+        }
+    }
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+
+aws: [ERROR]: An error occurred (ResourceNotFoundException) when calling the DescribeNodegroup operation: No node group found for name: hpa-project-ng.
+
+Additional error details:
+clusterName: hpa-project-eks
+nodegroupName: hpa-project-ng
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+CREATING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.health' --output json
+{
+    "issues": []
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> $asgName = aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.resources.autoScalingGroups[0].name' --output text
+>>
+>> aws autoscaling describe-scaling-activities --auto-scaling-group-name $asgName --region us-east-1 --query 'Activities[0:3].[StartTime, StatusCode, StatusMessage]' --output table
+
+aws: [ERROR]: An error occurred (ValidationError) when calling the DescribeScalingActivities operation: AutoScalingGroup name not found - AutoScalingGroup None not found
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws ec2 describe-instances --region us-east-1 --filters "Name=tag:aws:eks:cluster-name,Values=hpa-project-eks" --query "Reservations[].Instances[].[InstanceId, State.Name, PublicIpAddress, SubnetId]" --output table
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --output json
+{
+    "nodegroup": {
+        "nodegroupName": "hpa-project-ng",
+        "nodegroupArn": "arn:aws:eks:us-east-1:<User_ID>:nodegroup/hpa-project-eks/hpa-project-ng/6ad02c0a-298f-8666-6dcb-e757bb7ee276",
+        "clusterName": "hpa-project-eks",
+        "version": "1.36",
+        "releaseVersion": "1.36.3-20260827",
+        "createdAt": "2026-08-31T10:48:43.607000-03:00",
+        "modifiedAt": "2026-08-31T10:48:43.607000-03:00",
+        "status": "CREATING",
+        "capacityType": "ON_DEMAND",
+        "scalingConfig": {
+            "minSize": 1,
+            "maxSize": 2,
+            "desiredSize": 2
+        },
+        "instanceTypes": [
+            "t3.medium"
+        ],
+        "subnets": [
+            "subnet-<ID_sbn_8>",
+            "subnet-<ID_sbn_7>",
+            "subnet-<ID_sbn_6>"
+        ],
+        "amiType": "AL2023_x86_64_STANDARD",
+        "nodeRole": "arn:aws:iam::<User_ID>:role/hpa-project-eks-node-role",
+        "labels": {},
+        "diskSize": 20,
+        "health": {
+            "issues": []
+        },
+        "updateConfig": {
+            "maxUnavailable": 1,
+            "updateStrategy": "DEFAULT"
+        },
+        "nodeRepairConfig": {
+            "enabled": false
+        },
+        "tags": {
+            "projeto": "HPA-Minikube-vs-EKS",
+            "disciplina": "PSI5120"
+        }
+    }
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws cloudformation list-stacks --region us-east-1 --query "StackSummaries[?contains(StackName, 'hpa-project')].[StackName, StackStatus]" --output table
+----------------------------------------
+|              ListStacks              |
++------------------+-------------------+
+|  hpa-project-vpc |  CREATE_COMPLETE  |
++------------------+-------------------+
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> $stackName = (aws cloudformation list-stacks --region us-east-1 --query "StackSummaries[?contains(StackName, 'hpa-project-ng') && StackStatus!='DELETE_COMPLETE'].StackName" --output text).Trim()
+>>
+>> if ($stackName) {
+>>     aws cloudformation describe-stack-events --stack-name $stackName --region us-east-1 --query 'StackEvents[?ResourceStatus==`CREATE_FAILED`].[LogicalResourceId, ResourceStatusReason]' --output table
+>> }
+Não é possível chamar um método em uma expressão de valor nulo.
+No linha:1 caractere:1
++ $stackName = (aws cloudformation list-stacks --region us-east-1 --que ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws service-quotas get-service-quota --service-code ec2 --quota-code L-1216C47A --region us-east-1 --query 'Quota.Value'
+16.0
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks delete-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1
+{
+    "nodegroup": {
+        "nodegroupName": "hpa-project-ng",
+        "nodegroupArn": "arn:aws:eks:us-east-1:<User_ID>:nodegroup/hpa-project-eks/hpa-project-ng/6ad02c0a-298f-8666-6dcb-e757bb7ee276",
+        "clusterName": "hpa-project-eks",
+        "version": "1.36",
+        "releaseVersion": "1.36.3-20260827",
+        "createdAt": "2026-08-31T10:48:43.607000-03:00",
+        "modifiedAt": "2026-08-31T11:20:10.480000-03:00",
+        "status": "DELETING",
+        "capacityType": "ON_DEMAND",
+        "scalingConfig": {
+            "minSize": 1,
+            "maxSize": 2,
+            "desiredSize": 2
+        },
+        "instanceTypes": [
+            "t3.medium"
+        ],
+        "subnets": [
+            "subnet-<ID_sbn_8>",
+            "subnet-<ID_sbn_7>",
+            "subnet-<ID_sbn_6>"
+        ],
+        "amiType": "AL2023_x86_64_STANDARD",
+        "nodeRole": "arn:aws:iam::<User_ID>:role/hpa-project-eks-node-role",
+        "labels": {},
+        "diskSize": 20,
+        "health": {
+            "issues": []
+        },
+        "updateConfig": {
+            "maxUnavailable": 1,
+            "updateStrategy": "DEFAULT"
+        },
+        "nodeRepairConfig": {
+            "enabled": false
+        },
+        "tags": {
+            "projeto": "HPA-Minikube-vs-EKS",
+            "disciplina": "PSI5120"
+        }
+    }
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks delete-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1
+{
+    "nodegroup": {
+        "nodegroupName": "hpa-project-ng",
+        "nodegroupArn": "arn:aws:eks:us-east-1:<User_ID>:nodegroup/hpa-project-eks/hpa-project-ng/6ad02c0a-298f-8666-6dcb-e757bb7ee276",
+        "clusterName": "hpa-project-eks",
+        "version": "1.36",
+        "releaseVersion": "1.36.3-20260827",
+        "createdAt": "2026-08-31T10:48:43.607000-03:00",
+        "modifiedAt": "2026-08-31T11:21:46.182000-03:00",
+        "status": "DELETING",
+        "capacityType": "ON_DEMAND",
+        "scalingConfig": {
+            "minSize": 1,
+            "maxSize": 2,
+            "desiredSize": 2
+        },
+        "instanceTypes": [
+            "t3.medium"
+        ],
+        "subnets": [
+            "subnet-<ID_sbn_8>",
+            "subnet-<ID_sbn_7>",
+            "subnet-<ID_sbn_6>"
+        ],
+        "amiType": "AL2023_x86_64_STANDARD",
+        "nodeRole": "arn:aws:iam::<User_ID>:role/hpa-project-eks-node-role",
+        "labels": {},
+        "diskSize": 20,
+        "health": {
+            "issues": []
+        },
+        "updateConfig": {
+            "maxUnavailable": 1,
+            "updateStrategy": "DEFAULT"
+        },
+        "nodeRepairConfig": {
+            "enabled": false
+        },
+        "tags": {
+            "projeto": "HPA-Minikube-vs-EKS",
+            "disciplina": "PSI5120"
+        }
+    }
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis>
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+ACTIVE
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+serviceaccount/metrics-server unchanged
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader unchanged
+clusterrole.rbac.authorization.k8s.io/system:metrics-server unchanged
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader unchanged
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator unchanged
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server unchanged
+service/metrics-server unchanged
+deployment.apps/metrics-server configured
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io unchanged
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl get deployment metrics-server -n kube-system
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+metrics-server   1/1     1            1           34s
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> # 1. Verificar o status do pod do Metrics Server
+>> kubectl get deployment metrics-server -n kube-system
+>>
+>> # 2. Testar se a API de métricas já está respondendo
+>> kubectl top nodes
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+metrics-server   1/1     1            1           83s
+NAME                              CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+ip-192-168-225-163.ec2.internal   23m          1%       482Mi           15%
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> kubectl apply -f manifests-hpa-demo.yaml
+error: the path "manifests-hpa-demo.yaml" does not exist
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis> cd manifests
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> kubectl apply -f manifests-hpa-demo.yaml
+namespace/hpa-demo created
+deployment.apps/php-apache created
+service/php-apache created
+horizontalpodautoscaler.autoscaling/php-apache-hpa created
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> kubectl get all -n hpa-demo
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/php-apache-77979bcd78-zz9kv   1/1     Running   0          15s
+
+NAME                 TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
+service/php-apache   ClusterIP   10.100.33.9   <none>        80/TCP    16s
+
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/php-apache   1/1     1            1           16s
+
+NAME                                    DESIRED   CURRENT   READY   AGE
+replicaset.apps/php-apache-77979bcd78   1         1         1       16s
+
+NAME                                                 REFERENCE               TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/php-apache-hpa   Deployment/php-apache   cpu: <unknown>/50%   1         8         1          15s
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> kubectl get hpa -n hpa-demo
+NAME             REFERENCE               TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
+php-apache-hpa   Deployment/php-apache   cpu: <unknown>/50%   1         8         1          21s
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> kubectl get hpa -n hpa-demo
+NAME             REFERENCE               TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%   1         8         1          74s
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> kubectl delete namespace hpa-demo
+namespace "hpa-demo" deleted
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> aws eks delete-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1
+{
+    "nodegroup": {
+        "nodegroupName": "hpa-project-ng",
+        "nodegroupArn": "arn:aws:eks:us-east-1:<User_ID>:nodegroup/hpa-project-eks/hpa-project-ng/34d02c1c-50f3-1a49-63f1-d0abaf813ac2",
+        "clusterName": "hpa-project-eks",
+        "version": "1.36",
+        "releaseVersion": "1.36.3-20260827",
+        "createdAt": "2026-08-31T11:28:22.417000-03:00",
+        "modifiedAt": "2026-08-31T11:43:17.452000-03:00",
+        "status": "DELETING",
+        "capacityType": "ON_DEMAND",
+        "scalingConfig": {
+            "minSize": 1,
+            "maxSize": 2,
+            "desiredSize": 1
+        },
+        "instanceTypes": [
+            "c7i-flex.large"
+        ],
+        "subnets": [
+            "subnet-<ID_sbn_8>",
+            "subnet-<ID_sbn_7>",
+            "subnet-<ID_sbn_6>"
+        ],
+        "amiType": "AL2023_x86_64_STANDARD",
+        "nodeRole": "arn:aws:iam::<User_ID>:role/hpa-project-eks-node-role",
+        "labels": {},
+        "resources": {
+            "autoScalingGroups": [
+                {
+                    "name": "eks-hpa-project-ng-34d02c1c-50f3-1a49-63f1-d0abaf813ac2"
+                }
+            ]
+        },
+        "diskSize": 20,
+        "health": {
+            "issues": []
+        },
+        "updateConfig": {
+            "maxUnavailable": 1,
+            "updateStrategy": "DEFAULT"
+        },
+        "nodeRepairConfig": {
+            "enabled": false
+        },
+        "tags": {
+            "projeto": "HPA-Minikube-vs-EKS",
+            "disciplina": "PSI5120"
+        }
+    }
+}
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+DELETING
+
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests> aws eks describe-nodegroup --cluster-name hpa-project-eks --nodegroup-name hpa-project-ng --region us-east-1 --query 'nodegroup.status' --output text
+
+aws: [ERROR]: An error occurred (ResourceNotFoundException) when calling the DescribeNodegroup operation: No node group found for name: hpa-project-ng.
+
+Additional error details:
+clusterName: hpa-project-eks
+nodegroupName: hpa-project-ng
+PS C:\nuvem-projeto-intermediario\nuvem-julia-kroneis\manifests>

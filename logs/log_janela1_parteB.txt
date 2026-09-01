@@ -1,0 +1,35 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+
+Experimente a nova plataforma cruzada PowerShell https://aka.ms/pscore6
+
+PS C:\Users\Julia> kubectl get hpa -n hpa-demo -w
+NAME             REFERENCE               TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%   1         8         1          116s
+php-apache-hpa   Deployment/php-apache   cpu: 143%/50%   1         8         1          2m45s
+PS C:\Users\Julia> kubectl get hpa -n hpa-demo -w
+NAME             REFERENCE               TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+php-apache-hpa   Deployment/php-apache   cpu: 200%/50%   1         8         3          3m5s
+php-apache-hpa   Deployment/php-apache   cpu: 84%/50%    1         8         4          3m15s
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%     1         8         4          3m30s
+php-apache-hpa   Deployment/php-apache   cpu: 37%/50%    1         8         4          4m15s
+php-apache-hpa   Deployment/php-apache   cpu: 62%/50%    1         8         3          4m31s
+php-apache-hpa   Deployment/php-apache   cpu: 83%/50%    1         8         4          4m46s
+php-apache-hpa   Deployment/php-apache   cpu: 66%/50%    1         8         7          5m1s
+php-apache-hpa   Deployment/php-apache   cpu: 53%/50%    1         8         7          5m16s
+php-apache-hpa   Deployment/php-apache   cpu: 41%/50%    1         8         7          5m31s
+php-apache-hpa   Deployment/php-apache   cpu: 47%/50%    1         8         7          5m46s
+php-apache-hpa   Deployment/php-apache   cpu: 35%/50%    1         8         7          6m1s
+php-apache-hpa   Deployment/php-apache   cpu: 41%/50%    1         8         7          6m16s
+php-apache-hpa   Deployment/php-apache   cpu: 40%/50%    1         8         7          6m31s
+php-apache-hpa   Deployment/php-apache   cpu: 32%/50%    1         8         7          6m46s
+php-apache-hpa   Deployment/php-apache   cpu: 2%/50%     1         8         6          7m1s
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%     1         8         6          7m16s
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%     1         8         6          7m31s
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%     1         8         5          7m46s
+php-apache-hpa   Deployment/php-apache   cpu: 1%/50%     1         8         1          8m1s
+php-apache-hpa   Deployment/php-apache   cpu: <unknown>/50%   1         8         1          9m17s
+php-apache-hpa   Deployment/php-apache   cpu: <unknown>/50%   1         8         1          9m17s
+STATUS           REASON                  MESSAGE
+Failure          InternalError           an error on the server ("unable to decode an event from the watch stream: http2: client connection lost") has prevented the request from succeeding
+PS C:\Users\Julia>
