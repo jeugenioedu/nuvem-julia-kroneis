@@ -1,0 +1,118 @@
+# =================================================================
+# Projeto: Avaliação Comparativa de HPA - Minikube vs. Amazon EKS
+# Arquivo: manifests-hpa-demo.yaml
+#
+# Este manifesto é aplicado sem alterações em AMBOS os ambientes
+# (Minikube e AWS EKS), garantindo que a comparação entre os dois
+# clusters seja justa (mesma aplicação, mesmos limites de recursos,
+# mesma política de escalamento).
+# =================================================================
+
+# -------------------------------------------------------------
+# 0. NAMESPACE
+# -------------------------------------------------------------
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hpa-demo
+---
+# -------------------------------------------------------------
+# 1. DEPLOYMENT DA APLICAÇÃO WEB
+# -------------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-apache
+  namespace: hpa-demo
+  labels:
+    app: php-apache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-apache
+  template:
+    metadata:
+      labels:
+        app: php-apache
+    spec:
+      containers:
+      - name: php-apache
+        # Imagem oficial de benchmark do Kubernetes: executa cálculos
+        # matemáticos intensivos (raiz quadrada em loop) a cada
+        # requisição HTTP recebida, permitindo elevar o uso de CPU
+        # de forma controlada e previsível.
+        image: registry.k8s.io/hpa-example
+        ports:
+        - containerPort: 80
+        resources:
+          # CRÍTICO PARA O HPA: é sobre este "requests.cpu" que o
+          # HPA calcula a porcentagem de utilização (averageUtilization).
+          requests:
+            cpu: 100m      # 100 miliCPUs (0.1 núcleo) por pod
+            memory: 64Mi
+          limits:
+            cpu: 200m      # Limite máximo por pod, evita que um único
+                            # pod monopolize a CPU do node
+            memory: 128Mi
+        # OBS: propositalmente SEM readinessProbe neste manifesto.
+        # O endpoint "/" desta imagem executa um cálculo intensivo de
+        # CPU a cada requisição; usar esse mesmo endpoint como probe
+        # cria um ciclo de autoalimentação (probe gera CPU -> HPA
+        # escala -> mais probes -> mais CPU), inviabilizando o
+        # experimento. Essa é uma decisão de design documentada, não
+        # uma omissão.
+---
+# -------------------------------------------------------------
+# 2. SERVICE DE EXPOSIÇÃO (interna ao cluster)
+# -------------------------------------------------------------
+# ClusterIP é suficiente para este experimento: a carga é gerada
+# por um Pod dentro do próprio cluster (load-generator), então não
+# é necessário expor a aplicação externamente nem provisionar um
+# Load Balancer (o que geraria custo extra no EKS sem necessidade).
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-apache
+  namespace: hpa-demo
+  labels:
+    app: php-apache
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: php-apache
+  type: ClusterIP
+---
+# -------------------------------------------------------------
+# 3. HORIZONTAL POD AUTOSCALER (HPA)
+# -------------------------------------------------------------
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache-hpa
+  namespace: hpa-demo
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  minReplicas: 1
+  maxReplicas: 8
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        # Se a média de CPU dos pods ultrapassar 50% do "requests"
+        # (ou seja, 50m de 100m), o HPA aumenta o número de réplicas.
+        averageUtilization: 50
+  behavior:
+    scaleDown:
+      # O padrão do Kubernetes é aguardar 300s (5 min) de estabilização
+      # antes de reduzir réplicas, para evitar oscilação em produção.
+      # Reduzido aqui para fins DIDÁTICOS, permitindo observar o
+      # scale-down dentro do tempo de uma sessão de testes.
+      stabilizationWindowSeconds: 60
